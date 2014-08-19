@@ -63,9 +63,7 @@ Must sync projects from Tower UI if pulling from SCM.  Press any key after synch
 Creating Job Templates
 
 {'name': 'Apache', 'verbosity': 0, 'job_type': 'run', 'project': 'Hyrulian Playbooks', 'inventory': 'Production', 'forks': 7, 'machine_credential': 'Local SSH', 'playbook': 'apache.yml', 'description': 'Confgure Apache servers'}
-{'credential': 1, 'name': 'Apache', 'verbosity': 0, 'job_type': 'run', 'project': 55, 'inventory': 10, 'organization': 1, 'forks': 7, 'machine_credential': 'Local SSH', 'playbook': 'apache.yml', 'description': 'Confgure Apache servers'}
 {'name': 'Graphite', 'verbosity': 2, 'job_type': 'run', 'project': 'Hyrulian Playbooks', 'inventory': 'Production', 'machine_credential': 'Local SSH', 'playbook': 'graphite.yml', 'description': 'Confgure Graphite servers'}
-{'credential': 1, 'name': 'Graphite', 'verbosity': 2, 'job_type': 'run', 'project': 55, 'inventory': 10, 'organization': 1, 'machine_credential': 'Local SSH', 'playbook': 'graphite.yml', 'description': 'Confgure Graphite servers'}
 ```
 
 ## Gotchas

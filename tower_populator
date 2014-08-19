@@ -103,7 +103,6 @@ if tower.job_templates:
         project = project_res.get(name=j['project'])
         j['project'] = project['id']
         j['organization'] = org_id
-        print j
         job_template_res.create(**j)
 
 
