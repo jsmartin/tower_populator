@@ -3,6 +3,8 @@
 import yaml
 import sys
 import tower_cli
+import time
+from select import select
 
 class Config:
     def __init__(self, **entries):
@@ -40,6 +42,7 @@ if tower.teams:
     # create teams
     for t in tower.teams:
         print t
+        t['organization'] = org_id
         team = team_res.create(**t)
         for u in t['users']:
             user = user_res.get(username=u)
@@ -86,7 +89,10 @@ if tower.projects:
         project_res.create(**p)
 
 if tower.job_templates:
-    raw_input('\nMust sync projects from Tower UI if pulling from SCM.  Press any key after synch is finished.\n') 
+    print "Waiting 60 seconds for projects to index."
+    print "Press any key to skip if you know what you're doing."
+    timeout = 60
+    rlist, wlist, xlist = select([sys.stdin], [], [], timeout)
     # create job templates
     print "\nCreating Job Templates\n"
     for j in tower.job_templates:
