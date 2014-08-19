@@ -4,13 +4,9 @@ import yaml
 import sys
 import tower_cli
 
-
-
-
 class Config:
     def __init__(self, **entries):
         self.__dict__.update(entries)
-
 
 # load configuration
 c = yaml.load(open(sys.argv[1]).read())
