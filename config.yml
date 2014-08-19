@@ -42,7 +42,6 @@ teams:
     users:
     - zelda
 
-
 credentials:
   - name: Local SSH
     description:  Used for non-cloud instances
@@ -63,7 +62,6 @@ credentials:
     password: myapikey
     username: myusername
 
-
 inventories:
   - name: Production
     description: Production Machines
@@ -76,14 +74,6 @@ inventories:
     description: Test Machines
   - name: QA
     description: QA Machines
-
-groups:
-  - name: EC2
-    credential: AWS creds
-    source: ec2
-    description: EC2 hosts
-    inventory: Production
-
 
 projects:
   - name: Hyrulian Playbooks
@@ -113,4 +103,3 @@ job_templates:
     machine_credential: Local SSH
     verbosity: 2
     job_type: run
-
