@@ -1,0 +1,116 @@
+#support multiple orgs eventually
+org: Hyrule Ventures
+org_desc:  Mining Rupees Daily
+users:
+  - username: link
+    email: link@hyrule.com
+    first_name: Link
+    is_superuser: yes
+    last_name: Smith
+  - username: gdorf
+    email: gannon@hyrule.com
+    first_name: Gannon
+    is_superuser: false
+    last_name: Dorf
+  - username: zelda
+    email: zelda@hyrule.com
+    first_name: Zelda
+    is_superuser: false
+    last_name: Smith
+  - username: epona
+    email: epona@hyrule.com
+    first_name: Epona
+    is_superuser: false
+    last_name: Horse
+  - username: demise
+    email: demise@hyrule.com
+    first_name: De
+    is_superuser: false
+    last_name: Mise
+
+teams:
+  - name: Ops
+    description: The Ops Team
+    users:
+    - link
+  - name: QA
+    description: The QA Team
+    users:
+    - gdorf
+  - name: Dev
+    description: The Dev Team
+    users:
+    - zelda
+
+
+credentials:
+  - name: Local SSH
+    description:  Used for non-cloud instances
+    team: Ops
+    kind: ssh
+    username: vagrant
+    private_key: /root/vagrant-key
+  - name: AWS creds
+    description: Used for AWS 
+    team: Ops
+    kind: aws
+    username: myaccesskey
+    password: mysecretkey
+  - name: Rax Creds
+    description: Used for Rackspace 
+    team: Ops
+    kind: rax
+    password: myapikey
+    username: myusername
+
+
+inventories:
+  - name: Production
+    description: Production Machines
+    groups:
+      - name: EC2
+        credential: AWS creds
+        source: ec2
+        description: EC2 hosts
+  - name: Test
+    description: Test Machines
+  - name: QA
+    description: QA Machines
+
+groups:
+  - name: EC2
+    credential: AWS creds
+    source: ec2
+    description: EC2 hosts
+    inventory: Production
+
+
+projects:
+  - name: Hyrulian Playbooks
+    description: Configures all the servers in Hyrule.
+    scm_type: git
+    scm_url: https://github.com/jsmartin/demo-cli
+  - name: Ansible Examples
+    description: Some example roles and playbooks
+    scm_type: git
+    scm_url: https://github.com/ansible/ansible-examples
+
+job_templates:
+  - name: Apache
+    description: Confgure Apache servers
+    inventory: Production
+    project: Hyrulian Playbooks
+    playbook: apache.yml
+    machine_credential: Local SSH
+    job_type: run
+    verbosity: 0
+    forks: 7
+  - name: Graphite
+    description: Confgure Graphite servers
+    inventory: Production
+    project: Hyrulian Playbooks
+    playbook: graphite.yml
+    machine_credential: Local SSH
+    verbosity: 2
+    job_type: run
+
