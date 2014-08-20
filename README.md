@@ -70,6 +70,5 @@ Creating Job Templates
 
 tower-cli doesn't do everything the Tower UI does (yet), so there are some limitations:
 
-1. Projects must be synched manually from the Tower CLI if they are pulled from a SCM.  The script will prompt you for this.  There is a [RFE for this](https://github.com/ansible/tower-cli/issues/14).
-2. All credential types use ```username``` and ```password``` as options, even AWS, Rackspace, etc.  This is a [known issue](https://github.com/ansible/tower-cli/issues/13).
+1. All credential types use ```username``` and ```password``` as options, even AWS, Rackspace, etc.  This is a [known issue](https://github.com/ansible/tower-cli/issues/13).
 
