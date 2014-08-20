@@ -72,7 +72,7 @@ if tower.inventories:
         i['organization'] = org_id
         inv = inv_res.create(**i)
         # create dynamic groups, static ones can be imported better with awx-manage
-        if inv.has_key('groups'):
+        if i.has_key('groups'):
             for g in i['groups']:
                 print g
                 g['inventory'] = inv['id']
