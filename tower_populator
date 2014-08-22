@@ -5,10 +5,15 @@ import sys
 import tower_cli
 import time
 from select import select
+import os.path
+from getpass import getpass
 
 class Config:
     def __init__(self, **entries):
         self.__dict__.update(entries)
+
+
+
 
 # load configuration
 c = yaml.load(open(sys.argv[1]).read())
@@ -19,6 +24,7 @@ team_res = tower_cli.get_resource('team')
 org_res = tower_cli.get_resource('organization')
 cred_res = tower_cli.get_resource('credential')
 inv_res = tower_cli.get_resource('inventory')
+host_res = tower_cli.get_resource('host')
 group_res = tower_cli.get_resource('group')
 project_res = tower_cli.get_resource('project')
 job_template_res = tower_cli.get_resource('job_template')
@@ -62,8 +68,15 @@ if tower.credentials:
         if c.has_key('user'):
             user = user_res.get(name=user['name'])
             c['user'] = user['id']
-            print c
-        cred_res.create(**c)
+        if c.has_key('private_key'):
+            key_file_path = os.path.expanduser(c['private_key'])
+            c['ssh_key_data'] = open(key_file_path, 'r').read()
+        if c.has_key('private_key_password'):
+            if c['private_key_password'] == 'prompt':
+                c['ssh_key_unlock'] = getpass('Enter your ssh key password: ')
+            else:
+                c['ssh_key_unlock'] = c['private_key_password']     
+        c = cred_res.create(**c)
 
 if tower.inventories:
     # create inventories
@@ -85,6 +98,14 @@ if tower.inventories:
                 # sync the group if it has a credential
                 if g.has_key('cred'):
                     group_res.sync(group['group'])
+                if g.has_key('hosts'):
+                    for h in g['hosts']:
+                        h['inventory'] = inv['id']
+                        print h
+                        host = host_res.create(**h)
+                        host_res.associate(host['id'], group['id'])
+
+
 
 
 if tower.projects:
