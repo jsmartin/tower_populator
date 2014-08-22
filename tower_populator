@@ -60,8 +60,9 @@ if tower.credentials:
             team = team_res.get(name=team['name'])
             c['team'] = team['id']
         if c.has_key('user'):
-            team = user_res.get(name=user['name'])
+            user = user_res.get(name=user['name'])
             c['user'] = user['id']
+            print c
         cred_res.create(**c)
 
 if tower.inventories:
@@ -76,9 +77,15 @@ if tower.inventories:
             for g in i['groups']:
                 print g
                 g['inventory'] = inv['id']
-                cred = cred_res.get(name=g['credential'])
-                g['credential'] = cred['id']
-                group_res.create(**g)
+                # set the credential if this group has one
+                if g.has_key('cred'):
+                    cred = cred_res.get(name=g['credential'])
+                    g['credential'] = cred['id']
+                group = group_res.create(**g)
+                # sync the group if it has a credential
+                if g.has_key('cred'):
+                    group_res.sync(group['group'])
+
 
 if tower.projects:
     # create projects 
