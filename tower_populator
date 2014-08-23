@@ -70,7 +70,7 @@ if tower.credentials:
             c['user'] = user['id']
         if c.has_key('private_key'):
             key_file_path = os.path.expanduser(c['private_key'])
-            c['ssh_key_data'] = open(key_file_path, 'r').read()
+            c['ssh_key_data'] = open(key_file_path, 'r')
         if c.has_key('private_key_password'):
             if c['private_key_password'] == 'prompt':
                 c['ssh_key_unlock'] = getpass('Enter your ssh key password: ')
