@@ -91,22 +91,23 @@ if tower.inventories:
                 print g
                 g['inventory'] = inv['id']
                 # set the credential if this group has one
-                if g.has_key('cred'):
+                if g.has_key('credential'):
                     cred = cred_res.get(name=g['credential'])
                     g['credential'] = cred['id']
                 group = group_res.create(**g)
                 # sync the group if it has a credential
-                if g.has_key('cred'):
-                    group_res.sync(group['group'])
+                if group.has_key('group'):
+                    id = group['group']
+                elif group.has_key('id'):
+                    id = group['id']
+                if g.has_key('credential'):
+                    group_res.sync(id)
                 if g.has_key('hosts'):
                     for h in g['hosts']:
                         h['inventory'] = inv['id']
                         print h
                         host = host_res.create(**h)
                         host_res.associate(host['id'], group['id'])
-
-
-
 
 if tower.projects:
     # create projects 
