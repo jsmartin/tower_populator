@@ -43,24 +43,30 @@ teams:
     - zelda
 
 credentials:
+  - name: EC2 SSH
+    description:  Used for EC2 instances
+    team: Ops
+    kind: ssh
+    username: root
+    private_key: /Users/jmartin/.ssh/ida_rsa
   - name: Local SSH
-    description:  Used for non-cloud instances
+    description:  Used for vagrant instances
     team: Ops
     kind: ssh
     username: vagrant
-    private_key: /root/vagrant-key
+    private_key: /Users/jmartin/.vagrant.d/insecure_private_key
   - name: AWS creds
     description: Used for AWS 
     team: Ops
     kind: aws
-    username: myaccesskey
-    password: mysecretkey
-  - name: Rax Creds
+    username: YOU
+    password: CANTHANDLETHIS
+  - name: RAX creds
     description: Used for Rackspace 
     team: Ops
     kind: rax
-    password: myapikey
-    username: myusername
+    username: me
+    password: noyoucant
 
 inventories:
   - name: Production
@@ -70,8 +76,21 @@ inventories:
         credential: AWS creds
         source: ec2
         description: EC2 hosts
+      - name: RAX
+        credential: RAX creds
+        source: rax
+        description: RAX hosts
   - name: Test
     description: Test Machines
+    groups:
+      - name: web
+        source: manual
+        hosts:
+        - name: 10.42.0.6
+        - name: 10.42.0.7
+        - name: 10.42.0.8
+        - name: 10.42.0.9
+        - name: 10.42.0.10     
   - name: QA
     description: QA Machines
 
@@ -79,7 +98,7 @@ projects:
   - name: Hyrulian Playbooks
     description: Configures all the servers in Hyrule.
     scm_type: git
-    scm_url: https://github.com/jsmartin/demo-cli
+    scm_url: https://github.com/jsmartin/tower-demo-example-simple
   - name: Ansible Examples
     description: Some example roles and playbooks
     scm_type: git
@@ -88,18 +107,10 @@ projects:
 job_templates:
   - name: Apache
     description: Confgure Apache servers
-    inventory: Production
+    inventory: Test
     project: Hyrulian Playbooks
-    playbook: apache.yml
+    playbook: site.yml
     machine_credential: Local SSH
     job_type: run
     verbosity: 0
-    forks: 7
-  - name: Graphite
-    description: Confgure Graphite servers
-    inventory: Production
-    project: Hyrulian Playbooks
-    playbook: graphite.yml
-    machine_credential: Local SSH
-    verbosity: 2
-    job_type: run
+    forks: 5
